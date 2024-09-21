@@ -12,7 +12,7 @@
 DHT dht(DHTPIN, DHTTYPE);
 
 unsigned long previousMillis = 0;  // Memorizza il tempo della precedente trasmissione
-const long interval = 1000;        // Intervallo di 1 secondo
+const long interval = 2000;        // Intervallo di 1 secondo
 
 
 void setup() {
