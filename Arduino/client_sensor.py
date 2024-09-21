@@ -12,12 +12,13 @@ arduino = serial.Serial("COM5", 9600)
 #ybase_url = 'http://127.0.0.1:80'
 base_url = 'https://coldar-436310.ew.r.appspot.com'
 
-
+i = 0
 ''' ------ MAIN ------ '''
 while True:
     if arduino.in_waiting > 0:
-        print("arduino disponibile")
-        response = requests.post(f'{base_url}/invia_messaggio')
+        print(f"arduino disponibile: {i}")
+        i +=1
+        response = requests.post(f'{base_url}/invia_messaggio', timeout=10)
         if response.status_code == 200:
             message = response.text.strip()
             print('messaggio: ', message)
@@ -66,5 +67,3 @@ while True:
                 arduino.write(b"B")
             elif message == "BUZZER_OFF":
                 arduino.write(b"C")'''
-    else:
-        print("arduino non disp")
