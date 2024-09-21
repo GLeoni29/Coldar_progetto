@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Generic - Stellar by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="static/assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="static/assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+					
+					<header id="header" style="text-align: center; padding: 20px;">
+					<a href="/" class="nn" >Home</a>
+						
+						
+						<div style="display: flex; justify-content: center; align-items: center; padding-bottom:20px; padding-top:10px;">
+						<a href="/area_monitor" class="nn" style="font-size: 0.8em;text-decoration: underline dotted; text-underline-offset: 5px;">Area Monitor</a>
+						
+						<h1 style="width: 50%;">Area Analisi</h1>
+						
+						<a href="/area_test" class="nn" style="font-size: 0.8em;text-decoration: underline dotted; text-underline-offset: 5px;">Area Test</a>
+						</div>
+					</header>
+					
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="#monitoraggio_temperatura" class="active">Monitoraggio temperatura</a></li>
+							<li><a href="#monitoraggio_sportello">Monitoraggio sportello</a></li>
+							<li><a href="#filtro">Filtra</a></li>
+						</ul>
+						{% if messaggio %}
+							{% if messaggio == "errore" %}
+								<b><p style="margin-bottom:0; margin-top:15px; color:red;">Periodo selezionato non disponibile!</p></b>
+							{% else %}
+								<b><p style="margin-bottom:0; margin-top:15px; color:#AD698C;"> {{ messaggio }} </p></b>
+							{%endif%}
+						{% else %}
+							<b><p style="margin-bottom:0; margin-top:15px; color:#AD698C;">  Dati riferiti alla giornata odierna </p></b> 
+						{% endif %}
+					</nav>
+						<!-- 625296 -->
+				<!-- Main -->
+					<div id="main">
+						
+						
+						<!-- Content -->
+							<section id="monitoraggio_temperatura" class="main">
+								<h2>Monitoraggio temperatura</h2>
+								
+								<div id="temperatura_chart" style="width: 1040px; height: 388px;">
+								</div>
+
+								
+							</section>
+							<section id="monitoraggio_sportello" class="main">
+								<!-- <br/> -->
+								<h2>Monitoraggio apertura</h2>
+								<div id="sportello_chart" style="width: 1040px; height: 388px;">
+								</div>
+							</section>	
+								
+							<section id="filtro" class="main">	
+								<!-- <br/> -->
+								<h2 style="margin-bottom:0">Filtra</h2>
+								<p style="font-size:12pt; font-style:italic">
+									Inserire l'intervallo temporale di cui si vogliono visualizzare i dati
+								</p>
+								
+								
+								<form id="filtroForm" method="post" action="/filtra_dati" onsubmit="return validaForm()" style="margin-top:20px">
+									<div class="row gtr-uniform" style="margin-bottom:50px">
+										<div class="col-6 col-12-xsmall">
+											<label for="data">Seleziona giorno: <i style="color: black; font-size: smaller; font-weight: normal"> (default data attuale) </i></label>
+											<input type="date" name="data" id="data" class="p">
+										</div>
+										
+									</div>
+
+									<div class="row gtr-uniform" style="margin-bottom:80px">
+										
+										<div class="col-6 col-12-xsmall">
+											<label for="data">Seleziona orario iniziale:</label>
+											<input type="time" name="orario_inizio" id="orario_inizio" class="p" required>
+										</div>
+										<div class="col-6 col-12-xsmall">
+										<label for="data">Seleziona orario finale:</label>
+											<input type="time" name="orario_fine" id="orario_fine" class="p" required>
+										</div>
+										
+									</div>
+																										
+									
+									<div class="row gtr-uniform">
+											
+										<div class="col-6 col-12-xsmall">
+													<ul class="actions">
+													<li><input type="submit" name="filtra" value="Filtra" /></li>
+													</ul>
+										</div>
+									</div>
+										
+										</form>
+								
+							</section>
+
+					</div>
+		
+				<!-- Footer -->
+					<footer id="footer">
+						<section>
+							<h2>COLDAR - Cold Data Assurance & Reporting</h2>
+							<p>Siamo un'azienda specializzata nella gestione e monitoraggio avanzato dei dati di temperatura. 
+								Offriamo soluzioni innovative per garantire la sicurezza e l'efficienza dei sistemi di refrigerazione, 
+								assicurando performance ottimali. </p>
+						</section>
+						<section>
+							<h2>Contatti</h2>
+							<dl class="alt">
+								<dt>Indirizzo</dt>
+								<dd>Via delle Industrie, 45 &bull; 42122 Reggio Emilia&bull; Italia</dd>
+								<dt>Telefono</dt>
+								<dd>(+39) 02 1234 5678</dd>
+								<dt>Email</dt>
+								<dd>coldar.info@gmail.com</dd>
+							</dl>
+						</section>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="static/assets/js/jquery.min.js"></script>
+			<script src="static/assets/js/jquery.scrollex.min.js"></script>
+			<script src="static/assets/js/jquery.scrolly.min.js"></script>
+			<script src="static/assets/js/browser.min.js"></script>
+			<script src="static/assets/js/breakpoints.min.js"></script>
+			<script src="static/assets/js/util.js"></script>
+			<script src="static/assets/js/main.js"></script>
+			
+	
+			
+			<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+			<script type="text/javascript">
+				google.charts.load('current', {'packages':['corechart']});
+				google.charts.setOnLoadCallback(drawChart);
+
+				function drawChart() {
+					var temperaturaData = google.visualization.arrayToDataTable({{ dati_temperatura | safe }});
+					var sportelloData = google.visualization.arrayToDataTable({{ dati_sportello | safe }});
+
+					var temperaturaOptions = {
+						//curveType: 'function',
+						curveType: 'linear',
+						hAxis: { title: 'Ore' },
+						vAxis: { title: 'Temperatura' },
+						legend: 'none'  // Nascondi la legenda
+						// mettere virgola !!
+						//series: {
+						//	1: { color: 'black', lineDashStyle: [4, 4] },  // Linea nera a 20 gradi
+						//	2: { color: 'black', lineDashStyle: [4, 4] }   // Linea nera a 25 gradi
+						//}
+					};
+
+					var sportelloOptions = {
+						curveType: 'linear',
+						hAxis: { title: 'Ore' },
+						vAxis: { title: 'Sportello', 
+								 minValue: 0,
+								 maxValue: 1,
+								 ticks: [{v: 1, f: 'Aperto'}, {v: 0, f: 'Chiuso'}]
+						},
+						legend: 'none'  // Nascondi la legenda
+					};
+	
+					var temperaturaChart = new google.visualization.LineChart(document.getElementById('temperatura_chart'));
+					var sportelloChart = new google.visualization.LineChart(document.getElementById('sportello_chart'));
+
+					temperaturaChart.draw(temperaturaData, temperaturaOptions);
+					sportelloChart.draw(sportelloData, sportelloOptions);
+				}
+			</script>
+			
+			<script>
+				// Imposta la data massima nel campo data come la data odierna
+				window.onload = function() {
+					const oggi = new Date().toISOString().split("T")[0];
+					document.getElementById("data").setAttribute("max", oggi);
+				};
+
+				// Controlla che l'orario iniziale e finale siano riempiti e che l'orario finale sia successivo a quello iniziale
+				function validaForm() {
+					const orarioInizio = document.getElementById("orario_inizio").value;
+					const orarioFine = document.getElementById("orario_fine").value;
+					const data = document.getElementById("data").value;
+
+					if (!orarioInizio || !orarioFine) {
+						alert("Devi inserire orario di inizio e orario di fine.");
+						return false;
+					}
+
+					if (orarioFine <= orarioInizio) {
+						alert("L'orario finale deve essere successivo a quello iniziale.");
+						return false;
+					}
+
+					return true;
+				}
+			</script>
+			
+    <!-- <script type="text/javascript">
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChartTemperature);
+		google.charts.setOnLoadCallback(drawChartSportello);
+
+		function drawChartTemperature() {
+			var data = google.visualization.arrayToDataTable([
+				['Year', 'Sales', 'Expenses'],
+				{{data|safe}}
+			]);
+
+			var options = {
+				title: 'Company Performance',
+				curveType: 'line',
+				legend: { position: 'bottom' },
+				hAxis: {
+					title: 'Year'
+				},
+				vAxis: {
+					title: 'Sales'
+				}
+			};
+
+			var chart = new google.visualization.LineChart(document.getElementById('ChartTemperature'));
+
+			chart.draw(data, options);
+		}
+		
+		function drawChartSportello() {
+			var data = google.visualization.arrayToDataTable([
+				['Year', 'Sales', 'Expenses'],
+				{{data|safe}}
+			]);
+
+			var options = {
+				title: 'Company Performance',
+				curveType: 'line',
+				legend: { position: 'bottom' },
+				hAxis: {
+					title: 'Year'
+				},
+				vAxis: {
+					title: 'Sales'
+				}
+			};
+
+			var chart = new google.visualization.LineChart(document.getElementById('ChartSportello'));
+
+			chart.draw(data, options);
+		}
+		
+    </script> -->
+
+	</body>
+</html>
