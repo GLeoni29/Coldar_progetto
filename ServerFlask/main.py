@@ -242,7 +242,7 @@ def test_led_e_buzzer_off():
     lista_messaggi.append("LEDandBUZZER_OFF")
     return render_template('area_test.html')
 
-def check_messaggio(lista_messaggi):
+'''def check_messaggio(lista_messaggi):
     if len(lista_messaggi) == 1:
         messaggio = lista_messaggi[0]
         lista_messaggi.pop()
@@ -253,6 +253,17 @@ def check_messaggio(lista_messaggi):
 @app.route('/invia_messaggio', methods=['POST'])
 def invia_messaggio():
     messaggio = check_messaggio(lista_messaggi)
+    return messaggio'''
+@app.route('/invia_messaggio', methods=['POST'])
+def invia_messaggio():
+    global lista_messaggi
+
+    if len(lista_messaggi) > 0:
+        messaggio = lista_messaggi[0]
+        lista_messaggi.pop()
+    else:
+        messaggio = ""
+
     return messaggio
 
 
