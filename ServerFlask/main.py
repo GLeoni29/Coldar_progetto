@@ -59,20 +59,25 @@ def controlla_condizioni(temperatura, sportello_aperto):
 
 @app.route('/dati', methods=['POST'])
 def ricevi_dati():
-    # Ricevi i dati dal client_sensor
-    dataora = request.form.get('dataora')
-    temperatura = request.form.get('temperatura')
-    sportello = request.form.get('sportello')
+    try:
+        # Ricevi i dati dal client_sensor
+        dataora = request.form.get('dataora')
+        temperatura = request.form.get('temperatura')
+        sportello = request.form.get('sportello')
 
-    # Controlla le condizioni temperatura e sportello
-    controlla_condizioni(float(temperatura), int(sportello))
+        # Controlla le condizioni temperatura e sportello
+        controlla_condizioni(float(temperatura), int(sportello))
 
-    # Salva i dati su Firestore
-    doc_ref = db.collection(coll).document()  # id di default
-    doc_ref.set({"dataora": dataora, "temperatura": temperatura, "sportello": sportello})  # imposto documeto
-    print(f"Dati inseriri: [dataora: {dataora}, temperatura: {temperatura}, sportello: {sportello}]")
+        # Salva i dati su Firestore
+        doc_ref = db.collection(coll).document()  # id di default
+        doc_ref.set({"dataora": dataora, "temperatura": temperatura, "sportello": sportello})  # imposto documeto
+        print(f"Dati inseriri: [dataora: {dataora}, temperatura: {temperatura}, sportello: {sportello}]")
 
-    return "Dati salvati", 200
+        return "Dati salvati", 200
+
+    except Exception as e:
+        print(f"Errore: {e}")
+        return "Errore interno del server", 500
 
 
 ''' ------ HOME ------ '''
