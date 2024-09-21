@@ -16,6 +16,7 @@ base_url = 'https://coldar-436310.ew.r.appspot.com'
 ''' ------ MAIN ------ '''
 while True:
     if arduino.in_waiting > 0:
+        print("arduino disponibile")
         response = requests.post(f'{base_url}/invia_messaggio')
         if response.status_code == 200:
             message = response.text.strip()
@@ -45,7 +46,7 @@ while True:
                 'temperatura': float(temperatura),
                 'sportello': int(sportello)
             }
-            print("rilevazione: ", rilevazione)
+            #print("rilevazione: ", rilevazione)
             requests.post(f'{base_url}/dati', rilevazione)
 
 
@@ -65,3 +66,5 @@ while True:
                 arduino.write(b"B")
             elif message == "BUZZER_OFF":
                 arduino.write(b"C")'''
+    else:
+        print("arduino non disp")
