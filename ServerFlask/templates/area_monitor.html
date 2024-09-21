@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Generic - Stellar by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="static/assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="static/assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<!-- <header id="header">
+						
+							<a href="/" class="nn" >Home</a>
+						
+						<h1>Area Monitor</h1>
+						<!-- <h4>In quest'area potrai visualizzare lo stato del sistema.</h4>
+					</header> -->
+					
+					<header id="header" style="text-align: center; padding: 20px;">
+					<a href="/" class="nn" >Home</a>
+						
+						
+						<div style="display: flex; justify-content: center; align-items: center; padding-bottom:20px; padding-top:10px;">
+						<a href="/area_analisi" class="nn" style="font-size: 0.8em;text-decoration: underline dotted; text-underline-offset: 5px;">Area Analisi</a>
+						<!-- text-decoration: underline dotted; text-underline-offset: 5px; -->
+						<h1 style="width: 50%;">Area Monitor</h1>
+						
+						<a href="/area_test" class="nn" style="font-size: 0.8em;text-decoration: underline dotted; text-underline-offset: 5px;">Area Test</a>
+						</div>
+						<!-- <h4>Quest'area è dedicata al monitoraggio nel tempo dei dati. Potrai fare, vedere e selezionare.</h4> -->
+					</header>
+
+				<!-- Main -->
+					<div id="main">
+					
+						<!-- Second Section -->
+							<section id="second" class="main special" style="padding-top:3em;">
+								<header class="major">
+									
+									<h2 id="stato"> Stato: {{stato}}</h2>
+									
+									<!--     ID INUTILI !!!! credo
+									<h2>Stato: ok</h2>
+									Donec imperdiet consequat consequat. Suspendisse feugiat congue
+									posuere. Nulla massa urna, fermentum eget quam aliquet.</p>-->
+								</header>
+								<ul class="statistics">
+									<li class="style1">
+										<h2 id="temperatura">Temperatura</h2>
+										<strong>{{temperatura}} °C</strong>
+									</li>
+									<li class="style2">
+										<h2 id="sportello">Sportello</h2>
+										{% if sportello == '1' %}
+											<strong>Aperto</strong>
+										{% else %}
+											<strong>Chiuso</strong>
+										{% endif %}
+										<!-- Sportello: {{ 'Aperto' if sportello else 'Chiuso' }} -->
+									</li>
+								</ul>
+									<!-- <li class="style3">
+										<span class="icon solid fa-signal"></span>
+										<strong>2,048</strong> Tempus
+									</li>
+									<li class="style4">
+										<span class="icon solid fa-laptop"></span>
+										<strong>4,096</strong> Aliquam
+									</li>
+									<li class="style5">
+										<span class="icon fa-gem"></span>
+										<strong>1,024</strong> Nullam
+									</li> -->
+									
+									
+									
+								<!-- </ul>
+								<ul style = "list-style: none;">
+									<li><a href="/area_monitor" class="button large">Aggiorna</a></li>
+								</ul> -->
+								
+								
+								
+								<!-- <p class="content">Nam elementum nisl et mi a commodo porttitor. Morbi sit amet nisl eu arcu faucibus hendrerit vel a risus. Nam a orci mi, elementum ac arcu sit amet, fermentum pellentesque et purus. Integer maximus varius lorem, sed convallis diam accumsan sed. Etiam porttitor placerat sapien, sed eleifend a enim pulvinar faucibus semper quis ut arcu. Ut non nisl a mollis est efficitur vestibulum. Integer eget purus nec nulla mattis et accumsan ut magna libero. Morbi auctor iaculis porttitor. Sed ut magna ac risus et hendrerit scelerisque. Praesent eleifend lacus in lectus aliquam porta. Cras eu ornare dui curabitur lacinia.</p>
+								<footer class="major">
+									<ul class="actions special">
+										<li><a href="/area_monitor" class="button">Learn More</a></li>
+									</ul>
+								</footer> -->
+								<footer class="major">
+								Ultimo aggiornamento ore: {{orario}}
+									<a href="/area_monitor" class="nn" style="color:#b6a2c0; font-size:10pt;">aggiorna</a>
+								</footer>
+							</section>
+
+					</div>
+					
+					
+
+				<!-- Footer -->
+					<footer id="footer">
+						<section>
+							<h2>COLDAR - Cold Data Assurance & Reporting</h2>
+							<p>Siamo un'azienda specializzata nella gestione e monitoraggio avanzato dei dati di temperatura. 
+								Offriamo soluzioni innovative per garantire la sicurezza e l'efficienza dei sistemi di refrigerazione, 
+								assicurando performance ottimali. </p>
+						</section>
+						<section>
+							<h2>Contatti</h2>
+							<dl class="alt">
+								<dt>Indirizzo</dt>
+								<dd>Via delle Industrie, 45 &bull; 42122 Reggio Emilia&bull; Italia</dd>
+								<dt>Telefono</dt>
+								<dd>(+39) 02 1234 5678</dd>
+								<dt>Email</dt>
+								<dd>coldar.info@gmail.com</dd>
+							</dl>
+						</section>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="static/assets/js/jquery.min.js"></script>
+			<script src="static/assets/js/jquery.scrollex.min.js"></script>
+			<script src="static/assets/js/jquery.scrolly.min.js"></script>
+			<script src="static/assets/js/browser.min.js"></script>
+			<script src="static/assets/js/breakpoints.min.js"></script>
+			<script src="static/assets/js/util.js"></script>
+			<script src="static/assets/js/main.js"></script>
+
+	</body>
+</html>
