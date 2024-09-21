@@ -9,8 +9,8 @@ arduino = serial.Serial("COM5", 9600)
 
 
 ''' ------ URL BASE ------ '''
-base_url = 'http://127.0.0.1:80'
-#base_url = 'https://pcloud-24-08-2024.ew.r.appspot.com'
+#base_url = 'http://127.0.0.1:80'
+base_url = 'https://coldar-436310.ew.r.appspot.com'
 
 
 ''' ------ MAIN ------ '''
@@ -35,7 +35,7 @@ while True:
         response = requests.post(f'{base_url}/invia_messaggio')
         if response.status_code == 200:
             message = response.text.strip()
-            #print('messaggio: ',message)
+            print('messaggio: ',message)
             if message == "LEDandBUZZER_ON":
                 arduino.write(b"O")
             elif message == "LEDandBUZZER_OFF":
