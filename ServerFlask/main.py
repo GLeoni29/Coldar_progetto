@@ -10,7 +10,6 @@ app = Flask(__name__)
 
 
 ''' ------ APERTURA CONNESSIONE FIRESTORE ------ '''
-##############àdb = 'test1'
 db = 'coldar'
 coll = 'Arduino1'
 db = firestore.Client.from_service_account_json('credentials.json', database=db)
@@ -27,11 +26,6 @@ def controlla_condizioni(temperatura, sportello_aperto):
     global lista_messaggi
     global sportello_aperto_da
     global stato_allarme
-
-    print("temperatura: ", temperatura)
-    print("tipo temperatura: ", type(temperatura))
-    print("sportello_aperto: ", sportello_aperto)
-    print("tipo sportello_aperto: ", type(sportello_aperto))
 
     # Controllo temperatura prioritario
     if temperatura < 10 or temperatura > 25:  # se temperatura fuori range
@@ -76,7 +70,7 @@ def ricevi_dati():
     # Salva i dati su Firestore
     doc_ref = db.collection(coll).document()  # id di default
     doc_ref.set({"dataora": dataora, "temperatura": temperatura, "sportello": sportello})  # imposto documeto
-    print(doc_ref.get())
+    print(f"Dati inseriri: [dataora: {dataora}, temperatura: {temperatura}, sportello: {sportello}]")
 
     return "Dati salvati", 200
 
