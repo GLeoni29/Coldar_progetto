@@ -16,12 +16,12 @@ i = 0
 ''' ------ MAIN ------ '''
 while True:
     if arduino.in_waiting > 0:
-        print(f"arduino disponibile: {i}")
+        #print(f"arduino disponibile: {i}")
         i +=1
-        response = requests.post(f'{base_url}/invia_messaggio', timeout=10)
+        response = requests.post(f'{base_url}/invia_messaggio', timeout=100)
         if response.status_code == 200:
             message = response.text.strip()
-            print('messaggio: ', message)
+            print('messaggio',i,': ', message)
             if message == "LEDandBUZZER_ON":
                 arduino.write(b"O")
             elif message == "LEDandBUZZER_OFF":
