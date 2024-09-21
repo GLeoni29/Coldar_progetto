@@ -1,16 +1,19 @@
+''' ------ IMPORT ------ '''
 import serial
 import requests
 from datetime import datetime
 
 
-
-# Configura la connessione seriale
+''' ------ CONFIGURA CONNESSIONE SERIALE ------ '''
 arduino = serial.Serial("COM5", 9600)
 
+
+''' ------ URL BASE ------ '''
 base_url = 'http://127.0.0.1:80'
 #base_url = 'https://pcloud-24-08-2024.ew.r.appspot.com'
 
 
+''' ------ MAIN ------ '''
 while True:
     if arduino.in_waiting > 0:
         data = arduino.readline().decode('utf-8').strip()
@@ -18,9 +21,7 @@ while True:
             continue
         else:
             temperatura, sportello = data.split(',')
-
             timestamp = datetime.now()
-
 
             rilevazione = {
                 'dataora': timestamp,
@@ -28,8 +29,8 @@ while True:
                 'sportello': int(sportello)
             }
             print("rilevazione: ", rilevazione)
-
             requests.post(f'{base_url}/dati', rilevazione)
+
 
         response = requests.post(f'{base_url}/invia_messaggio')
         if response.status_code == 200:
@@ -47,4 +48,3 @@ while True:
                 arduino.write(b"B")
             elif message == "BUZZER_OFF":
                 arduino.write(b"C")
-
