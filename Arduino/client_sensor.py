@@ -55,7 +55,11 @@ while True:
             #response = requests.post(f'{base_url}/dati') #requests.post(f'{base_url}/invia_messaggio')#, timeout=100)
             if response.status_code == 200:
                 message = response.text.strip()
+
                 print('messaggio',i,': ', message)
+                message = message[:-1]
+                print(message)
+                #print('tipo: ',type(message))
                 if message == "LEDandBUZZER_ON":
                     arduino.write(b"O")
                 elif message == "LEDandBUZZER_OFF":
