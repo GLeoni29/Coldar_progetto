@@ -19,7 +19,7 @@ db = firestore.Client.from_service_account_json('credentials.json', database=db)
 sportello_aperto_da = None  # Variabile per tenere traccia del tempo di apertura dello sportello
 stato_allarme = False  # variabile per segnalare che il sistema è in stato di allarme
 lista_messaggi = []  # lista per inviare comandi ad arduino
-
+comando = False
 
 ''' ------ RECUPERO DATI DA ARDUINO ------ '''
 def controlla_condizioni(temperatura, sportello_aperto):
@@ -74,15 +74,16 @@ def ricevi_dati():
         doc_ref.set({"dataora": dataora, "temperatura": temperatura, "sportello": sportello})  # imposto documeto
         print(f"Dati inseriri: [dataora: {dataora}, temperatura: {temperatura}, sportello: {sportello}]")
 
-
+        global comando
         ## ## ## ## ## ## ##
-        if len(lista_messaggi) > 0:
-            m = lista_messaggi[0]
+        #if len(lista_messaggi) > 0:
+        if comando:
+            comando = False
+            messaggio = lista_messaggi[0]
             lista_messaggi.pop()
 
         else:
-            m = '0'
-        messaggio = m+str(len(lista_messaggi))
+            messaggio = ''
         return messaggio, 200 #"Dati salvati", 200
 
     except Exception as e:
@@ -219,37 +220,49 @@ def area_test():
 @app.route('/test_led_on')
 def test_led_on():
     global lista_messaggi
+    global comando
     lista_messaggi.append("LED_ON")
+    comando = True
     return render_template('area_test.html')
 
 @app.route('/test_led_off')
 def test_led_off():
     global lista_messaggi
+    global comando
     lista_messaggi.append("LED_OFF")
+    comando = True
     return render_template('area_test.html')
 
 @app.route('/test_buzzer_on')
 def test_buzzer_on():
     global lista_messaggi
+    global comando
     lista_messaggi.append("BUZZER_ON")
+    comando = True
     return render_template('area_test.html')
 
 @app.route('/test_buzzer_off')
 def test_buzzer_off():
     global lista_messaggi
+    global comando
     lista_messaggi.append("BUZZER_OFF")
+    comando = True
     return render_template('area_test.html')
 
 @app.route('/test_led_e_buzzer_on')
 def test_led_e_buzzer_on():
     global lista_messaggi
+    global comando
     lista_messaggi.append("LEDandBUZZER_ON")
+    comando = True
     return render_template('area_test.html')
 
 @app.route('/test_led_e_buzzer_off')
 def test_led_e_buzzer_off():
     global lista_messaggi
+    global comando
     lista_messaggi.append("LEDandBUZZER_OFF")
+    comando = True
     return render_template('area_test.html')
 
 '''def check_messaggio(lista_messaggi):
