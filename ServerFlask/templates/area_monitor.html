@@ -47,12 +47,8 @@
 							<section id="second" class="main special" style="padding-top:3em;">
 								<header class="major">
 									
-									<h2 id="stato"> Stato: {{stato}}</h2>
-									
-									<!--     ID INUTILI !!!! credo
-									<h2>Stato: ok</h2>
-									Donec imperdiet consequat consequat. Suspendisse feugiat congue
-									posuere. Nulla massa urna, fermentum eget quam aliquet.</p>-->
+									<h2> Stato: {{stato}}</h2>
+
 								</header>
 								<ul class="statistics">
 									<li class="style1">
@@ -61,7 +57,7 @@
 									</li>
 									<li class="style2">
 										<h2 id="sportello">Sportello</h2>
-										{% if sportello == '1' %}
+										{% if sportello == 1 %}
 											<strong>Aperto</strong>
 										{% else %}
 											<strong>Chiuso</strong>
