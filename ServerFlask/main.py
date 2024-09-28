@@ -77,11 +77,12 @@ def ricevi_dati():
 
         ## ## ## ## ## ## ##
         if len(lista_messaggi) > 0:
-            messaggio = lista_messaggi[0]
+            m = lista_messaggi[0]
             lista_messaggi.pop()
-        else:
-            messaggio = ""
 
+        else:
+            m = '0'
+        messaggio = m+str(len(lista_messaggi))
         return messaggio, 200 #"Dati salvati", 200
 
     except Exception as e:
