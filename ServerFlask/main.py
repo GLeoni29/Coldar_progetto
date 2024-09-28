@@ -61,9 +61,10 @@ def controlla_condizioni(temperatura, sportello_aperto):
 def ricevi_dati():
     try:
         # Ricevi i dati dal client_sensor
-        dataora = request.form.get('dataora')
-        temperatura = request.form.get('temperatura')
-        sportello = request.form.get('sportello')
+        dataora = str(request.form.get('dataora'))
+        temperatura = float(request.form.get('temperatura'))
+        sportello = int(request.form.get('sportello'))
+        # !!!!!!
 
         # Controlla le condizioni temperatura e sportello
         controlla_condizioni(float(temperatura), int(sportello))
@@ -73,7 +74,15 @@ def ricevi_dati():
         doc_ref.set({"dataora": dataora, "temperatura": temperatura, "sportello": sportello})  # imposto documeto
         print(f"Dati inseriri: [dataora: {dataora}, temperatura: {temperatura}, sportello: {sportello}]")
 
-        return "Dati salvati", 200
+
+        ## ## ## ## ## ## ##
+        if len(lista_messaggi) > 0:
+            messaggio = lista_messaggi[0]
+            lista_messaggi.pop()
+        else:
+            messaggio = ""
+
+        return messaggio, 200 #"Dati salvati", 200
 
     except Exception as e:
         print(f"Errore: {e}")
@@ -254,7 +263,8 @@ def test_led_e_buzzer_off():
 def invia_messaggio():
     messaggio = check_messaggio(lista_messaggi)
     return messaggio'''
-@app.route('/invia_messaggio', methods=['POST'])
+
+'''@app.route('/invia_messaggio', methods=['POST'])
 def invia_messaggio():
     global lista_messaggi
 
@@ -264,7 +274,7 @@ def invia_messaggio():
     else:
         messaggio = ""
 
-    return messaggio
+    return messaggio'''
 
 
 
