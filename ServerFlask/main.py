@@ -26,6 +26,7 @@ def controlla_condizioni(temperatura, sportello_aperto):
     global lista_messaggi
     global sportello_aperto_da
     global stato_allarme
+    global comando
 
     # Controllo temperatura prioritario
     if temperatura < 10 or temperatura > 25:  # se temperatura fuori range
@@ -49,9 +50,11 @@ def controlla_condizioni(temperatura, sportello_aperto):
     if (allarme_temperatura or allarme_sportello) and not stato_allarme:
         stato_allarme = True
         lista_messaggi.append("LEDandBUZZER_ON")
+        comando = True
     elif (not allarme_temperatura and not allarme_sportello) and stato_allarme:
         stato_allarme = False
         lista_messaggi.append("LEDandBUZZER_OFF")
+        comando = True
     elif (allarme_temperatura or allarme_sportello) and stato_allarme:
         pass  # mantieni lo stato di allarme
     elif (not allarme_temperatura and not allarme_sportello) and not stato_allarme:
