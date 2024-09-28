@@ -57,8 +57,8 @@ while True:
                 message = response.text.strip()
 
                 print('messaggio',i,': ', message)
-                message = message[:-1]
-                print(message)
+                #message = message[:-1]
+                #print(message)
                 #print('tipo: ',type(message))
                 if message == "LEDandBUZZER_ON":
                     arduino.write(b"O")
