@@ -93,6 +93,7 @@ def ricevi_dati():
         #    messaggio = ''
         messaggio = mex
         mex = ""
+        time.sleep(0.3)
         return messaggio, 200 #"Dati salvati", 200
 
     except Exception as e:
