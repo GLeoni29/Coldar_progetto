@@ -91,10 +91,12 @@ def ricevi_dati():
             #lista_messaggi.pop()
         #else:
         #    messaggio = ''
-        messaggio = mex
-        mex = ""
-        time.sleep(0.3)
-        return messaggio, 200 #"Dati salvati", 200
+        if mex != "":
+            messaggio = mex
+            mex = ""
+            return messaggio, 200 #"Dati salvati", 200
+        else:
+            return "", 200
 
     except Exception as e:
         print(f"Errore: {e}")
