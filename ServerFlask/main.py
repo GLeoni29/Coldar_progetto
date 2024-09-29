@@ -29,7 +29,7 @@ def controlla_condizioni(temperatura, sportello_aperto):
     global comando
 
     # Controllo temperatura prioritario
-    if temperatura < 10 or temperatura > 25:  # se temperatura fuori range
+    if temperatura < 10 or temperatura > 30: #25:  # se temperatura fuori range
         allarme_temperatura = True
 
     else:  # se temperaura ok, controllo stato sportello
@@ -84,9 +84,9 @@ def ricevi_dati():
             comando = False
             messaggio = lista_messaggi[0]
             lista_messaggi.pop()
-
         else:
             messaggio = ''
+
         return messaggio, 200 #"Dati salvati", 200
 
     except Exception as e:
@@ -121,7 +121,7 @@ def area_monitor():
 
    # Imposta messaggio di stato (area monitor)
    stato = "ok con sportello chiuso"
-   if float(row['temperatura']) < 10 or float(row['temperatura']) > 25:
+   if float(row['temperatura']) < 10 or float(row['temperatura']) > 30:#25:
        # if float(row['temperatura']) < 2 or float(row['temperatura']) > 8: # Range GDO
        stato = "allarme temperatura"
    elif int(row['sportello']) == 1:
@@ -268,6 +268,11 @@ def test_led_e_buzzer_off():
     comando = True
     return render_template('area_test.html')
 
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=80, debug=True)
+
 '''def check_messaggio(lista_messaggi):
     if len(lista_messaggi) == 1:
         messaggio = lista_messaggi[0]
@@ -292,11 +297,3 @@ def invia_messaggio():
         messaggio = ""
 
     return messaggio'''
-
-
-
-
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
