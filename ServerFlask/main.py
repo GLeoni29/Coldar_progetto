@@ -18,16 +18,19 @@ db = firestore.Client.from_service_account_json('credentials.json', database=db)
 ''' ------ VARIABILI GLOBALI ------ '''
 sportello_aperto_da = None  # Variabile per tenere traccia del tempo di apertura dello sportello
 stato_allarme = False  # variabile per segnalare che il sistema è in stato di allarme
-#lista_messaggi = []  # lista per inviare comandi ad arduino
+
+### Per invio comandi ad arduino ###
+# lista_messaggi = []
 mex = ""
-comando = False
+# comando = False
 
 ''' ------ RECUPERO DATI DA ARDUINO ------ '''
 def controlla_condizioni(temperatura, sportello_aperto):
-    #global lista_messaggi
     global sportello_aperto_da
     global stato_allarme
-    global comando
+
+    # global lista_messaggi
+    # global comando
     global mex
 
     # Controllo temperatura prioritario
@@ -52,12 +55,12 @@ def controlla_condizioni(temperatura, sportello_aperto):
     if (allarme_temperatura or allarme_sportello) and not stato_allarme:
         stato_allarme = True
         #lista_messaggi.append("LEDandBUZZER_ON")
-        comando = True
+        #comando = True
         mex = "LEDandBUZZER_ON"
     elif (not allarme_temperatura and not allarme_sportello) and stato_allarme:
         stato_allarme = False
         #lista_messaggi.append("LEDandBUZZER_OFF")
-        comando = True
+        #comando = True
         mex = "LEDandBUZZER_OFF"
     elif (allarme_temperatura or allarme_sportello) and stato_allarme:
         pass  # mantieni lo stato di allarme
@@ -71,7 +74,6 @@ def ricevi_dati():
         dataora = str(request.form.get('dataora'))
         temperatura = float(request.form.get('temperatura'))
         sportello = int(request.form.get('sportello'))
-        # !!!!!!
 
         # Controlla le condizioni temperatura e sportello
         controlla_condizioni(float(temperatura), int(sportello))
@@ -81,20 +83,21 @@ def ricevi_dati():
         doc_ref.set({"dataora": dataora, "temperatura": temperatura, "sportello": sportello})  # imposto documeto
         print(f"Dati inseriri: [dataora: {dataora}, temperatura: {temperatura}, sportello: {sportello}]")
 
-        #global comando
+        '''   ##    PROBLEMA    ##    '''
+        # global comando
         global mex
-        ## ## ## ## ## ## ##
-        #if len(lista_messaggi) > 0:
-        #if comando:
-        #    comando = False
-            #messaggio = lista_messaggi[0]
-            #lista_messaggi.pop()
-        #else:
-        #    messaggio = ''
+        ''' #if len(lista_messaggi) > 0:
+        if comando:
+            comando = False
+            messaggio = lista_messaggi[0]
+            lista_messaggi.pop()
+        else:
+            messaggio = ''
+        return messaggio, 200 '''
         if mex != "":
             messaggio = mex
             mex = ""
-            return messaggio, 200 #"Dati salvati", 200
+            return messaggio, 200
         else:
             return "", 200
 
@@ -130,8 +133,8 @@ def area_monitor():
 
    # Imposta messaggio di stato (area monitor)
    stato = "ok con sportello chiuso"
-   if float(row['temperatura']) < 10 or float(row['temperatura']) > 30:#25:
-       # if float(row['temperatura']) < 2 or float(row['temperatura']) > 8: # Range GDO
+   if float(row['temperatura']) < 10 or float(row['temperatura']) > 30: #25:
+    # if float(row['temperatura']) < 2 or float(row['temperatura']) > 8: # Range GDO
        stato = "allarme temperatura"
    elif int(row['sportello']) == 1:
        if sportello_aperto_da is None:
@@ -293,28 +296,3 @@ def test_led_e_buzzer_off():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
-
-'''def check_messaggio(lista_messaggi):
-    if len(lista_messaggi) == 1:
-        messaggio = lista_messaggi[0]
-        lista_messaggi.pop()
-    else:
-        messaggio = ""
-    return messaggio
-
-@app.route('/invia_messaggio', methods=['POST'])
-def invia_messaggio():
-    messaggio = check_messaggio(lista_messaggi)
-    return messaggio'''
-
-'''@app.route('/invia_messaggio', methods=['POST'])
-def invia_messaggio():
-    global lista_messaggi
-
-    if len(lista_messaggi) > 0:
-        messaggio = lista_messaggi[0]
-        lista_messaggi.pop()
-    else:
-        messaggio = ""
-
-    return messaggio'''
