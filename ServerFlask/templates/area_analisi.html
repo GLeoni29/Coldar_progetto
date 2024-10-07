@@ -1,12 +1,7 @@
 <!DOCTYPE HTML>
-<!--
-	Stellar by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 	<head>
-		<title>Generic - Stellar by HTML5 UP</title>
+		<title>Area Analisi</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="static/assets/css/main.css" />
@@ -16,20 +11,15 @@
 
 		<!-- Wrapper -->
 			<div id="wrapper">
-
-					
-					<header id="header" style="text-align: center; padding: 20px;">
+			
+				<header id="header" style="text-align: center; padding: 20px;">
 					<a href="/" class="nn" >Home</a>
-						
-						
-						<div style="display: flex; justify-content: center; align-items: center; padding-bottom:20px; padding-top:10px;">
+					<div style="display: flex; justify-content: center; align-items: center; padding-bottom:20px; padding-top:10px;">
 						<a href="/area_monitor" class="nn" style="font-size: 0.8em;text-decoration: underline dotted; text-underline-offset: 5px;">Area Monitor</a>
-						
 						<h1 style="width: 50%;">Area Analisi</h1>
-						
 						<a href="/area_test" class="nn" style="font-size: 0.8em;text-decoration: underline dotted; text-underline-offset: 5px;">Area Test</a>
-						</div>
-					</header>
+					</div>
+				</header>
 					
 				<!-- Nav -->
 					<nav id="nav">
@@ -48,34 +38,23 @@
 							<b><p style="margin-bottom:0; margin-top:15px; color:#AD698C;">  Dati riferiti alla giornata odierna </p></b> 
 						{% endif %}
 					</nav>
-						<!-- 625296 -->
+					
 				<!-- Main -->
 					<div id="main">
-						
-						
 						<!-- Content -->
 							<section id="monitoraggio_temperatura" class="main">
 								<h2>Monitoraggio temperatura</h2>
-								
-								<div id="temperatura_chart" style="width: 1040px; height: 388px;">
-								</div>
-
-								
+								<div id="temperatura_chart" style="width: 1040px; height: 388px;"></div>
 							</section>
 							<section id="monitoraggio_sportello" class="main">
-								<!-- <br/> -->
 								<h2>Monitoraggio apertura</h2>
 								<div id="sportello_chart" style="width: 1040px; height: 388px;">
 								</div>
 							</section>	
 								
-							<section id="filtro" class="main">	
-								<!-- <br/> -->
+							<section id="filtro" class="main">
 								<h2 style="margin-bottom:0">Filtra</h2>
-								<p style="font-size:12pt; font-style:italic">
-									Inserire l'intervallo temporale di cui si vogliono visualizzare i dati
-								</p>
-								
+								<p style="font-size:12pt; font-style:italic">Inserire l'intervallo temporale di cui si vogliono visualizzare i dati</p>
 								
 								<form id="filtroForm" method="post" action="/filtra_dati" onsubmit="return validaForm()" style="margin-top:20px">
 									<div class="row gtr-uniform" style="margin-bottom:50px">
@@ -83,11 +62,9 @@
 											<label for="data">Seleziona giorno: <i style="color: black; font-size: smaller; font-weight: normal"> (default data attuale) </i></label>
 											<input type="date" name="data" id="data" class="p">
 										</div>
-										
 									</div>
 
 									<div class="row gtr-uniform" style="margin-bottom:80px">
-										
 										<div class="col-6 col-12-xsmall">
 											<label for="data">Seleziona orario iniziale:</label>
 											<input type="time" name="orario_inizio" id="orario_inizio" class="p" required>
@@ -96,23 +73,17 @@
 										<label for="data">Seleziona orario finale:</label>
 											<input type="time" name="orario_fine" id="orario_fine" class="p" required>
 										</div>
-										
 									</div>
 																										
-									
-									<div class="row gtr-uniform">
-											
+									<div class="row gtr-uniform">	
 										<div class="col-6 col-12-xsmall">
 													<ul class="actions">
 													<li><input type="submit" name="filtra" value="Filtra" /></li>
 													</ul>
 										</div>
-									</div>
-										
-										</form>
-								
+									</div>	
+								</form>
 							</section>
-
 					</div>
 		
 				<!-- Footer -->
@@ -217,58 +188,5 @@
 				}
 			</script>
 			
-    <!-- <script type="text/javascript">
-		google.charts.load('current', {'packages':['corechart']});
-		google.charts.setOnLoadCallback(drawChartTemperature);
-		google.charts.setOnLoadCallback(drawChartSportello);
-
-		function drawChartTemperature() {
-			var data = google.visualization.arrayToDataTable([
-				['Year', 'Sales', 'Expenses'],
-				{{data|safe}}
-			]);
-
-			var options = {
-				title: 'Company Performance',
-				curveType: 'line',
-				legend: { position: 'bottom' },
-				hAxis: {
-					title: 'Year'
-				},
-				vAxis: {
-					title: 'Sales'
-				}
-			};
-
-			var chart = new google.visualization.LineChart(document.getElementById('ChartTemperature'));
-
-			chart.draw(data, options);
-		}
-		
-		function drawChartSportello() {
-			var data = google.visualization.arrayToDataTable([
-				['Year', 'Sales', 'Expenses'],
-				{{data|safe}}
-			]);
-
-			var options = {
-				title: 'Company Performance',
-				curveType: 'line',
-				legend: { position: 'bottom' },
-				hAxis: {
-					title: 'Year'
-				},
-				vAxis: {
-					title: 'Sales'
-				}
-			};
-
-			var chart = new google.visualization.LineChart(document.getElementById('ChartSportello'));
-
-			chart.draw(data, options);
-		}
-		
-    </script> -->
-
 	</body>
 </html>
