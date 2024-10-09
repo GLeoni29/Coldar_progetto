@@ -3,7 +3,6 @@ from flask import Flask, render_template, request
 from google.cloud import firestore
 import time
 from datetime import datetime
-#from nocache import nocache
 
 ''' ------ AVVIO ISTANZA FLASK ------ '''
 app = Flask(__name__)
@@ -26,7 +25,7 @@ allarme_sportello = False
 allarme_temeratura = False
 
 ''' PER ERRORE '''
-@app.after_request
+'''@app.after_request
 def add_header(r):
     """
     Add headers to both force latest IE rendering engine or Chrome Frame,
@@ -37,7 +36,7 @@ def add_header(r):
     r.headers["Expires"] = "0"
     r.headers['Cache-Control'] = 'public, max-age=0'
     print("qui")
-    return r
+    return r'''
 
 
 ''' ------ RECUPERO DATI DA ARDUINO ------ '''
@@ -147,19 +146,23 @@ def area_monitor():
 
    # Imposta messaggio di stato (area monitor)
    stato = "ok con sportello chiuso"
-   if float(row['temperatura']) < 10 or float(row['temperatura']) > 30: #25:
+   if float(row['temperatura']) < 10 or float(row['temperatura']) > 25:
     # if float(row['temperatura']) < 2 or float(row['temperatura']) > 8: # Range GDO
        stato = "allarme temperatura"
    elif int(row['sportello']) == 1:
-       if sportello_aperto_da is None:
-           sportello_aperto_da = time.time()
+       stato = f"sportello aperto da {int(sportello_aperto_da)} secondi"
+   else: #se sportello chiuso
+       pass
+       '''if sportello_aperto_da == 0:
+           sportello_aperto_da += 1
+           #sportello_aperto_da = time.time()
        tempo_apertura = time.time() - sportello_aperto_da
        if tempo_apertura > 30:
            stato = "sportello aperto da più di 30 sec"
        else:
            stato = f"ok con sportello aperto da {int(tempo_apertura)} secondi"
    else:
-       sportello_aperto_da = None
+       sportello_aperto_da = None'''
 
    # Ottieni orario rilevazione
    dataora = datetime.strptime(row['dataora'], '%Y-%m-%d %H:%M:%S.%f')
