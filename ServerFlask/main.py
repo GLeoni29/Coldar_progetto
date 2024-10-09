@@ -129,6 +129,8 @@ def home():
 @app.route('/area_monitor')
 def area_monitor():
    global sportello_aperto_da
+   global allarme_sportello
+   global allarme_temeratura
 
    # Ottieni l'ultima rilevazione inserita nel database
    collection_ref = db.collection(coll)
@@ -145,7 +147,17 @@ def area_monitor():
                               orario=None)
 
    # Imposta messaggio di stato (area monitor)
-   stato = "ok con sportello chiuso"
+   if allarme_temeratura:
+       stato = "allarme temperatura fuori intervallo"
+   elif allarme_sportello:
+       stato = "allarme sportello aperto da più di 30 sec"
+   elif int(row['sportello']) == 1: # se sportello aperto
+       stato = "ok con sportello aperto"
+   else:
+       stato = "ok con sportello chiuso"
+
+
+   '''stato = "ok con sportello chiuso"
    if float(row['temperatura']) < 10 or float(row['temperatura']) > 25:
     # if float(row['temperatura']) < 2 or float(row['temperatura']) > 8: # Range GDO
        stato = "allarme temperatura"
@@ -153,7 +165,7 @@ def area_monitor():
        stato = f"sportello aperto da {int(sportello_aperto_da)} secondi"
    else: #se sportello chiuso
        pass
-       '''if sportello_aperto_da == 0:
+       if sportello_aperto_da == 0:
            sportello_aperto_da += 1
            #sportello_aperto_da = time.time()
        tempo_apertura = time.time() - sportello_aperto_da
