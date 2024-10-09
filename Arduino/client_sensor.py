@@ -9,8 +9,8 @@ arduino = serial.Serial("COM5", 9600)
 
 
 ''' ------ URL BASE ------ '''
-base_url = 'http://127.0.0.1:80'
-#base_url = 'https://coldar-436310.ew.r.appspot.com'
+#base_url = 'http://127.0.0.1:80'
+base_url = 'https://coldar-436310.ew.r.appspot.com'
 
 i = 0
 ''' ------ MAIN ------ '''
