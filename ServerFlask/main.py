@@ -15,16 +15,16 @@ db = firestore.Client.from_service_account_json('credentials.json', database=db)
 
 
 ''' ------ VARIABILI GLOBALI ------ '''
-#sportello_aperto_da = None  # Variabile per tenere traccia del tempo di apertura dello sportello
+# variabili per gestione stato allarme sistema e invio comando ad arduino
 sportello_aperto_da = 0
 temperatura_fuori_range_da = 0
-stato_allarme = False  # variabile per segnalare che il sistema è in stato di allarme
-mex = "" # variabile per invio comandi aurduino
-
 allarme_sportello = False
 allarme_temeratura = False
+stato_allarme = False
+mex = ""
 
-''' PER ERRORE '''
+
+
 '''@app.after_request
 def add_header(r):
     """
@@ -51,25 +51,16 @@ def controlla_condizioni(temperatura, sportello_aperto):
 
     # Controllo temperatura prioritario
     if temperatura < 10 or temperatura > 25:  # se temperatura fuori range
+    #if temperatura < 2 or temperatura > 8:
         temperatura_fuori_range_da += 1
-
         if temperatura_fuori_range_da == 5:
             allarme_temperatura = True
-
 
     else:  # se temperaura ok, controllo stato sportello
         temperatura_fuori_range_da = 0
         allarme_temperatura = False
 
         if sportello_aperto == 1:  # 1=sportello aperto, 0=sportello chiuso
-            '''if sportello_aperto_da is None:
-                sportello_aperto_da = time.time()
-                allarme_sportello = False
-            elif time.time() - sportello_aperto_da > 30:
-                allarme_sportello = True
-            else:
-                allarme_sportello = False'''
-
             sportello_aperto_da += 1
             if sportello_aperto_da == 30:
                 allarme_sportello = True
@@ -104,7 +95,7 @@ def ricevi_dati():
         doc_ref.set({"dataora": dataora, "temperatura": temperatura, "sportello": sportello})  # imposto documeto
         #print(f"Dati inseriri: [dataora: {dataora}, temperatura: {temperatura}, sportello: {sportello}]")
 
-        '''   ##    PROBLEMA    ##    '''
+        # Invio comando ad Arduino
         global mex
         #print("mex: ", mex)
         if mex != "":
@@ -128,7 +119,6 @@ def home():
 ''' ------ AREA MONITOR ------ '''
 @app.route('/area_monitor')
 def area_monitor():
-   global sportello_aperto_da
    global allarme_sportello
    global allarme_temeratura
 
@@ -155,26 +145,6 @@ def area_monitor():
        stato = "ok con sportello aperto"
    else:
        stato = "ok con sportello chiuso"
-
-
-   '''stato = "ok con sportello chiuso"
-   if float(row['temperatura']) < 10 or float(row['temperatura']) > 25:
-    # if float(row['temperatura']) < 2 or float(row['temperatura']) > 8: # Range GDO
-       stato = "allarme temperatura"
-   elif int(row['sportello']) == 1:
-       stato = f"sportello aperto da {int(sportello_aperto_da)} secondi"
-   else: #se sportello chiuso
-       pass
-       if sportello_aperto_da == 0:
-           sportello_aperto_da += 1
-           #sportello_aperto_da = time.time()
-       tempo_apertura = time.time() - sportello_aperto_da
-       if tempo_apertura > 30:
-           stato = "sportello aperto da più di 30 sec"
-       else:
-           stato = f"ok con sportello aperto da {int(tempo_apertura)} secondi"
-   else:
-       sportello_aperto_da = None'''
 
    # Ottieni orario rilevazione
    dataora = datetime.strptime(row['dataora'], '%Y-%m-%d %H:%M:%S.%f')
@@ -263,61 +233,37 @@ def area_test():
 
 @app.route('/test_led_on')
 def test_led_on():
-    #global lista_messaggi
-    #global comando
     global mex
-    #lista_messaggi.append("LED_ON")
-    #comando = True
     mex = "LED_ON"
     return render_template('area_test.html')
 
 @app.route('/test_led_off')
 def test_led_off():
-    #global lista_messaggi
-    #global comando
     global mex
-    #lista_messaggi.append("LED_OFF")
-    #comando = True
     mex = "LED_OFF"
     return render_template('area_test.html')
 
 @app.route('/test_buzzer_on')
 def test_buzzer_on():
-    #global lista_messaggi
-    #global comando
     global mex
-    #lista_messaggi.append("BUZZER_ON")
-    #comando = True
     mex = "BUZZER_ON"
     return render_template('area_test.html')
 
 @app.route('/test_buzzer_off')
 def test_buzzer_off():
-    #global lista_messaggi
-    #global comando
     global mex
-    #lista_messaggi.append("BUZZER_OFF")
-    #comando = True
     mex = "BUZZER_OFF"
     return render_template('area_test.html')
 
 @app.route('/test_led_e_buzzer_on')
 def test_led_e_buzzer_on():
-    #global lista_messaggi
-    #global comando
     global mex
-    #lista_messaggi.append("LEDandBUZZER_ON")
-    #comando = True
     mex = "LEDandBUZZER_ON"
     return render_template('area_test.html')
 
 @app.route('/test_led_e_buzzer_off')
 def test_led_e_buzzer_off():
-    #global lista_messaggi
-    #global comando
     global mex
-    #lista_messaggi.append("LEDandBUZZER_OFF")
-    #comando = True
     mex = "LEDandBUZZER_OFF"
     return render_template('area_test.html')
 
