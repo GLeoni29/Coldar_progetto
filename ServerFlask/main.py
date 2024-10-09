@@ -3,7 +3,7 @@ from flask import Flask, render_template, request
 from google.cloud import firestore
 import time
 from datetime import datetime
-
+#from nocache import nocache
 
 ''' ------ AVVIO ISTANZA FLASK ------ '''
 app = Flask(__name__)
@@ -16,51 +16,73 @@ db = firestore.Client.from_service_account_json('credentials.json', database=db)
 
 
 ''' ------ VARIABILI GLOBALI ------ '''
-sportello_aperto_da = None  # Variabile per tenere traccia del tempo di apertura dello sportello
+#sportello_aperto_da = None  # Variabile per tenere traccia del tempo di apertura dello sportello
+sportello_aperto_da = 0
+temperatura_fuori_range_da = 0
 stato_allarme = False  # variabile per segnalare che il sistema è in stato di allarme
+mex = "" # variabile per invio comandi aurduino
 
-### Per invio comandi ad arduino ###
-# lista_messaggi = []
-mex = ""
-# comando = False
+allarme_sportello = False
+allarme_temeratura = False
+
+''' PER ERRORE '''
+@app.after_request
+def add_header(r):
+    """
+    Add headers to both force latest IE rendering engine or Chrome Frame,
+    and also to cache the rendered page for 10 minutes.
+    """
+    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    r.headers["Pragma"] = "no-cache"
+    r.headers["Expires"] = "0"
+    r.headers['Cache-Control'] = 'public, max-age=0'
+    print("qui")
+    return r
+
 
 ''' ------ RECUPERO DATI DA ARDUINO ------ '''
 def controlla_condizioni(temperatura, sportello_aperto):
     global sportello_aperto_da
+    global temperatura_fuori_range_da
     global stato_allarme
-
-    # global lista_messaggi
-    # global comando
     global mex
 
+    global allarme_sportello
+    global allarme_temperatura
+
     # Controllo temperatura prioritario
-    if temperatura < 10 or temperatura > 30: #25:  # se temperatura fuori range
-        allarme_temperatura = True
+    if temperatura < 10 or temperatura > 25:  # se temperatura fuori range
+        temperatura_fuori_range_da += 1
+
+        if temperatura_fuori_range_da == 5:
+            allarme_temperatura = True
+
 
     else:  # se temperaura ok, controllo stato sportello
+        temperatura_fuori_range_da = 0
         allarme_temperatura = False
 
         if sportello_aperto == 1:  # 1=sportello aperto, 0=sportello chiuso
-            if sportello_aperto_da is None:
+            '''if sportello_aperto_da is None:
                 sportello_aperto_da = time.time()
                 allarme_sportello = False
             elif time.time() - sportello_aperto_da > 30:
                 allarme_sportello = True
             else:
-                allarme_sportello = False
+                allarme_sportello = False'''
+
+            sportello_aperto_da += 1
+            if sportello_aperto_da == 30:
+                allarme_sportello = True
         else:
-            sportello_aperto_da = None
+            sportello_aperto_da = 0
             allarme_sportello = False
 
     if (allarme_temperatura or allarme_sportello) and not stato_allarme:
         stato_allarme = True
-        #lista_messaggi.append("LEDandBUZZER_ON")
-        #comando = True
         mex = "LEDandBUZZER_ON"
     elif (not allarme_temperatura and not allarme_sportello) and stato_allarme:
         stato_allarme = False
-        #lista_messaggi.append("LEDandBUZZER_OFF")
-        #comando = True
         mex = "LEDandBUZZER_OFF"
     elif (allarme_temperatura or allarme_sportello) and stato_allarme:
         pass  # mantieni lo stato di allarme
@@ -81,19 +103,11 @@ def ricevi_dati():
         # Salva i dati su Firestore
         doc_ref = db.collection(coll).document()  # id di default
         doc_ref.set({"dataora": dataora, "temperatura": temperatura, "sportello": sportello})  # imposto documeto
-        print(f"Dati inseriri: [dataora: {dataora}, temperatura: {temperatura}, sportello: {sportello}]")
+        #print(f"Dati inseriri: [dataora: {dataora}, temperatura: {temperatura}, sportello: {sportello}]")
 
         '''   ##    PROBLEMA    ##    '''
-        # global comando
         global mex
-        ''' #if len(lista_messaggi) > 0:
-        if comando:
-            comando = False
-            messaggio = lista_messaggi[0]
-            lista_messaggi.pop()
-        else:
-            messaggio = ''
-        return messaggio, 200 '''
+        #print("mex: ", mex)
         if mex != "":
             messaggio = mex
             mex = ""
